@@ -3,7 +3,7 @@ module.exports = (app) => {
     const genre = require('../controller/genre.js');
     
     //ПОЛУЧАЕМ все жанры
-    app.get('/api/genres', genre.findAll);
+    app.get('/api/listGenres', genre.findAll);
 
     //СОЗДАЁМ запись жанра
     app.post('/api/addGenre', genre.create);

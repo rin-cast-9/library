@@ -24,13 +24,27 @@
             </div>
         </form>
         <h5>Авторы:</h5>
-        <ul class="list-group">
-            <li class="list-group-item" v-for="(writer, indexwriter) in book[0].book_writers" :key="indexwriter"> {{writer.writer.name}} </li>
-        </ul> 
+        <div v-if="book[0].book_writers.length!=0">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="(writer, indexwriter) in book[0].book_writers" :key="indexwriter"> {{writer.writer.name}} </li>
+            </ul> 
+        </div>
+        <div v-else>
+            <ul class="list-group">
+                <li class="list-group-item"> Авторы отсутствуют </li>
+            </ul>
+        </div>
         <h5>Жанры:</h5>
-        <ul class="list-group">
-            <li class="list-group-item" v-for="(genre, indexgenre) in book[0].book_genres" :key="indexgenre"> {{genre.genre.name}} </li>
-        </ul> 
+        <div v-if="book[0].book_genres.length!=0">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="(genre, indexgenre) in book[0].book_genres" :key="indexgenre"> {{genre.genre.name}} </li>
+            </ul>
+        </div>
+        <div v-else>
+            <ul class="list-group">
+                <li class="list-group-item"> Жанры отсутствуют </li>
+            </ul>
+        </div> 
         <div>
             <button class="btn btn-danger" v-on:click="deleteBook()">Удалить книгу</button>
         </div>
@@ -53,37 +67,37 @@
                     .get("/book/"+this.id)
                     .then(response => {
                         this.book = response.data;
-                        //console.log(this.book);
+                        console.log(this.book[0].book_genres.length);
                     })
                     .catch(err => {
                         console.log(err);
                     })
             },
             updateCost(e) {
-                e.preventDefault(); // запрет отправки формы, так как обрабатывать будем с помощью методов axios
+                e.preventDefault();
                 var data = {
                     cost: this.book[0].cost
                 };
                 http
                     .post("/updateCost/" + this.id, data)
-                    .then(() => { // запрос выполнился успешно
-                        this.$router.push('/listBooksAdministrator'); // переходим к списку студентов
+                    .then(() => {
+                        this.$router.push('/listBooksAdministrator');
                     })
-                    .catch(e => { // при выполнении запроса возникли ошибки
+                    .catch(e => {
                         console.log(e);
                     });
             },
             updateName(e) {
-                e.preventDefault(); // запрет отправки формы, так как обрабатывать будем с помощью методов axios
+                e.preventDefault();
                 var data = {
                     name: this.book[0].name
                 };
                 http
                     .post("/updateBookName/" + this.id, data)
-                    .then(() => { // запрос выполнился успешно
-                        this.$router.push('/listBooksAdministrator'); // переходим к списку студентов
+                    .then(() => { 
+                        this.$router.push('/listBooksAdministrator'); 
                     })
-                    .catch(e => { // при выполнении запроса возникли ошибки
+                    .catch(e => {
                         console.log(e);
                     });
             },
@@ -91,7 +105,7 @@
                 http
                     .post("/deleteBook/" + this.id)
                     .then(() => {
-                        this.$router.push('/listBooksAdministrator'); // переходим к списку студентов
+                        this.$router.push('/listBooksAdministrator');
                     })
                     .catch(e => {
                         console.log(e);

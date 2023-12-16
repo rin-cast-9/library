@@ -1,19 +1,24 @@
 import { createWebHistory, createRouter } from "vue-router";
-// импорт компонентов
+
 import ListBooks from "./components/book/ListBooks.vue";
 import Book from "./components/book/Book.vue"
 import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
 import BookAdministrator from "./components/bookAdministrator/Book.vue";
 import AddBook from "./components/bookAdministrator/AddBook.vue";
 import ListWriterBooks from "./components/book/WriterBook.vue";
+import AdministratorPanel from "./components/AdministratorPanel.vue";
+import ListWritersAdministrator from "./components/writerAdministrator/ListWriters.vue";
+import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
+import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
+import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
 
-// определяем маршруты
+
 const routes = [
     {
-        path: "/listBooks", // указание маршрута, по которому будем переходить к списку учебных дисциплин
-        name: "ListBooks", // имя маршрута
-        alias: "/books", // указание дополнительного маршрута
-        component: ListBooks, // компонент, на основании которого будет отрисовываться страница
+        path: "/listBooks", 
+        name: "ListBooks", 
+        alias: "/books",
+        component: ListBooks,
         meta: {
             title: "Витрина книг"
         }
@@ -59,6 +64,48 @@ const routes = [
         component: ListWriterBooks,
         meta: {
             title: "Витрина книг писателя"
+        }
+    },
+    {
+        path: "/administratorPanel",
+        name: "AdministratorPanel",
+        component: AdministratorPanel,
+        meta: {
+            title: "Настройки магазина"
+        }
+    },
+    {
+        path: "/listWritersAdministrator",
+        name: "ListWriters",
+        component: ListWritersAdministrator,
+        meta: {
+            title: "Список писателей"
+        }
+    },
+    {
+        path: "/writerAdministrator/:id",
+        name: "WriterDetails",
+        props: true,
+        component: WriterAdministrator,
+        meta: {
+            title: "Писатель"
+        }
+    },
+    {
+        path: "/listGenresAdministrator",
+        name: "ListGenres",
+        component: ListGenresAdministrator,
+        meta: {
+            title: "Список жанров"
+        }
+    },
+    {
+        path: "/genreAdministrator/:id",
+        name: "GenreDetails",
+        props: true,
+        component: GenreAdministrator,
+        meta: {
+            title: "Жанр"
         }
     }
 ];
