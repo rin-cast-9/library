@@ -29,5 +29,12 @@ services:
       - DB_PORT=$MYSQLDB_DOCKER_PORT
     stdin_open: true
     tty: true
+  frontend:
+    depends_on:
+      - backend
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - $VUE_LOCAL_PORT:$VUE_DOCKER_PORT
 volumes:
   db:
