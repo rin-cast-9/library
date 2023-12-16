@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.book">
+    <div class="container-fluid" v-if="this.book">
         <h1>{{book[0].name}}</h1>
     </div>
 </template>

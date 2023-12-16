@@ -3,7 +3,7 @@
         <h4>Добавление книги</h4>
         <form @submit="addBook">
             <div>
-                <input type="text" name="name" id="name" placeholder="Название книги" required v-model="book.name">
+                <input class="form-control" type="text" name="name" id="name" placeholder="Название книги" required v-model="book.name">
             </div>
             <div>
                 <select class="form-select" multiple aria-label="multiple select example" required v-model="writers.id" style="@media (min-width: 768px) { height: calc(4 * 38px)}">
@@ -22,10 +22,10 @@
                 </select>
             </div>
             <div>
-                <input type="number" name="cost" id="cost" placeholder="Цена" v-model="book.cost">
+                <input class="form-control" type="number" name="cost" id="cost" placeholder="Цена" v-model="book.cost">
             </div>
             <div>
-                <input type="submit" value="Добавить">
+                <input class="btn btn-primary" type="submit" value="Добавить книгу">
             </div>
         </form>
     </div>
@@ -47,7 +47,7 @@
         },
         methods: {
             addBook(e) {
-                e.preventDefault(); // запрет отправки формы, так как обрабатывать будем с помощью методов axios
+                e.preventDefault();
                 //console.log(this.genres.id);
                 var data = {
                     name: this.book.name,
@@ -58,10 +58,10 @@
                 //console.log(data);
                 http
                     .post("/addBook", data)
-                    .then(() => { // запрос выполнился успешно
-                        this.$router.push('/listBooksAdministrator'); // переходим к списку студентов
+                    .then(() => {
+                        this.$router.push('/listBooksAdministrator');
                     })
-                    .catch(e => { // при выполнении запроса возникли ошибки
+                    .catch(e => {
                         console.log(e);
                     });
             },
@@ -75,7 +75,7 @@
                         console.log(e);
                     });
             },
-            getGenres() {
+            getGenres() { // получаем список жанров
                 http
                     .get("/genres")
                     .then(response => {
@@ -86,7 +86,7 @@
                     });
             }
         },
-        mounted(){ // при монтировании компонента подгружаем список групп
+        mounted(){
             this.getWriters();
             this.getGenres();
         }

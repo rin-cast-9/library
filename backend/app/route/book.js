@@ -10,4 +10,16 @@ module.exports = (app) => {
 
     //ДОБАВЛЯЕМ книгу со связями с жанрами и авторами
     app.post('/api/addBook', book.addBook);
+
+    //УДАЛЯЕМ книгу по id
+    app.post('/api/deleteBook/:id', book.deleteBook);
+
+    //ОБНОВЛЯЕМ цену книги по id
+    app.post('/api/updateCost/:id', book.updateCost);
+
+    //ОБНОВЛЯЕМ название книги по id
+    app.post('/api/updateBookName/:id', book.updateName);
+
+    //ПОЛУЧАЕМ книги одного автора по id
+    app.get('/api/listWriterBooks/:id', book.findByWriter);
 };

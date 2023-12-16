@@ -6,6 +6,7 @@ var BookGenre = db.book_genre;
 var BookWriter = db.book_writer;
 var globalFunctions = require('../config/global.functions.js');
 
+//ПОЛУЧЕНИЕ всех книг
 exports.findAll = (req,res) => {
     Book.findAll({
         include: [
@@ -125,6 +126,83 @@ exports.addBook = async (req,res) => {
     }
 };
 
+//УДАЛЯЕМ книгу по id
+exports.deleteBook = (req, res) => {
+    Book.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(() => {
+            globalFunctions.sendResult(res, 'Запись о книге удалена')
+        })
+        .catch(err => {
+            globalFunctions.sendError(res,err);
+        })
+};
+
+//ОБНОВЛЯЕМ цену
+exports.updateCost = (req, res) => {
+    Book.update({
+        cost: req.body.cost
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(object => {
+            globalFunctions.sendResult(res, object)
+        })
+        .catch(err => {
+            globalFunctions.sendError(res,err);
+        })
+};
+
+//ОБНОВЛЯЕМ название книги
+exports.updateName = (req, res) => {
+    Book.update({
+        name: req.body.name
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(object => {
+            globalFunctions.sendResult(res, object)
+        })
+        .catch(err => {
+            globalFunctions.sendError(res,err);
+        })
+};
+
+//ПОЛУЧЕНИЕ книг одного писателя по id
+exports.findByWriter = (req,res) => {
+    Writer.findAll({
+        include: [
+            {
+                model: BookWriter,
+                requierd: true,
+                include: [
+                    {
+                        model: Book,
+                        required: true
+                    }
+                ] 
+            }
+        ],
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(objects => {
+        globalFunctions.sendResult(res,objects);
+    })
+    .catch(err => {
+        globalFunctions.sendError(res,err);
+    })
+};
 
 /*
 Book.findAll({

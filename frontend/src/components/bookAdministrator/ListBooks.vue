@@ -1,38 +1,41 @@
 <template>
-    <div v-if="books">
+    <div class="container-fluid" v-if="books">
       <h4>Витрина книг</h4>
       <router-link class="item btn btn-primary" to="/addBook">Добавить книгу</router-link>
-      <ul>
-        <!-- Вывод списка учебных дисциплин -->
-        <li v-for="(book, index) in books" :key="index">
-          <router-link :to="{name: 'BookDetailsAdmin', params: { id: book.id }}">{{book.name}}</router-link>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-start" v-for="(book, index) in books" :key="index">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold"><router-link :to="{name: 'BookDetailsAdmin', params: { id: book.id }}">{{book.name}}</router-link></div>
+            <div v-for="(writer, indexwriter) in book.book_writers" :key="indexwriter"> {{writer.writer.name}} </div>
+          </div>
+          <span class="badge bg-primary rounded-pill">{{book.cost}}</span>
         </li>
       </ul>
     </div>
   </template>
   
   <script>
-  import http from "../../http-common"; // подключение объекта, который позволяет отправлять запросы серверу
+  import http from "../../http-common";
   export default {
-    name: "ListBooksAdministrator", // Имя шаблона
-    data() { // данные компонента (определение переменных)
+    name: "ListBooksAdministrator",
+    data() {
       return {
         books: []
       };
     },
-    methods: { // методы компонента
+    methods: {
       getBooks() {
         http
-            .get("/listBooks") // обращаемся к серверу для получения списка учебных дисциплин
-            .then(response => { // запрос выполнен успешно
+            .get("/listBooks")
+            .then(response => { 
               this.books = response.data;
             })
-            .catch(e => { // запрос выполнен с ошибкой
+            .catch(e => {
               console.log(e);
             });
       }
     },
-    mounted() { // загружаем данные учебных дисциплин. Обработчик mounted() вызывается после монтирования экземпляра шаблона
+    mounted() {
       this.getBooks();
     }
   }
