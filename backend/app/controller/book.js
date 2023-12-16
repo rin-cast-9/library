@@ -91,7 +91,7 @@ exports.addBook = async (req,res) => {
     
         const writers = req.body.writers;
 
-        if (req.body.writers) {
+        if (req.body.writers!=undefined && req.body.writers.length!=0) {
             const bookWriterValues = writers.flatMap(writer =>
                 [
                     {
@@ -104,7 +104,7 @@ exports.addBook = async (req,res) => {
 
         const genres = req.body.genres;
 
-        if (req.body.genres) {
+        if (req.body.genres!=undefined && req.body.genres.length!=0) {
             const bookGenreValues = genres.flatMap(genre =>
                 [
                     {
@@ -115,11 +115,11 @@ exports.addBook = async (req,res) => {
             );
         }
 
-        if (req.body.writers) {
+        if (req.body.writers!=undefined && req.body.writers.length!=0) {
             await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
         }
 
-        if (req.body.genres) {
+        if (req.body.genres!=undefined && req.body.genres.length!=0) {
             await BookGenre.bulkCreate(bookGenreValues, { transaction: t });
         }
 
