@@ -5,6 +5,7 @@ import Book from "./components/book/Book.vue"
 import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
 import BookAdministrator from "./components/bookAdministrator/Book.vue";
 import AddBook from "./components/bookAdministrator/AddBook.vue";
+import ListWriterBooks from "./components/book/WriterBook.vue";
 
 // определяем маршруты
 const routes = [
@@ -49,6 +50,15 @@ const routes = [
         component: AddBook,
         meta: {
             title: "Добавление книги"
+        }
+    },
+    {
+        path: "/listWriterBooks/:id",
+        name: "ListWriterBooks",
+        props: true,
+        component: ListWriterBooks,
+        meta: {
+            title: "Витрина книг писателя"
         }
     }
 ];
