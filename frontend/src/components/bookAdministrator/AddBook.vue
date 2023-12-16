@@ -68,7 +68,7 @@
             },
             getWriters() { // получаем список писателей
                 http
-                    .get("/writers")
+                    .get("/listWriters")
                     .then(response => {
                         this.writers = response.data;
                     })
@@ -78,7 +78,7 @@
             },
             getGenres() { // получаем список жанров
                 http
-                    .get("/genres")
+                    .get("/listGenres")
                     .then(response => {
                         this.genres = response.data;
                     })
