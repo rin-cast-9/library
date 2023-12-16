@@ -20,7 +20,7 @@
                     .get("/book/"+this.id)
                     .then(response => {
                         this.book = response.data;
-                        console.log(this.book);
+                        //console.log(this.book);
                     })
                     .catch(err => {
                         console.log(err);

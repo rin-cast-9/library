@@ -12,7 +12,7 @@ exports.findAll = (req,res) => {
         include: [
             {
                 model: BookGenre,
-                required: true,
+                required: false,
                 include: [
                     {
                         model: Genre,
@@ -22,7 +22,7 @@ exports.findAll = (req,res) => {
             },
             {
                 model: BookWriter,
-                requierd: true,
+                requierd: false,
                 include: [
                     {
                         model: Writer,
@@ -46,7 +46,7 @@ exports.findById = (req,res) => {
         include: [
             {
                 model: BookGenre,
-                required: true,
+                required: false,
                 include: [
                     {
                         model: Genre,
@@ -56,7 +56,7 @@ exports.findById = (req,res) => {
             },
             {
                 model: BookWriter,
-                requierd: true,
+                requierd: false,
                 include: [
                     {
                         model: Writer,
@@ -91,31 +91,37 @@ exports.addBook = async (req,res) => {
     
         const writers = req.body.writers;
 
-        const bookWriterValues = writers.flatMap(writer => // flatMap нужен для преобразования массива students в набор объектов для добавления в таблицу attestation_book
-            [
-                {
-                    book_id: book_id,
-                    writer_id: writer
-                }
-            ]
-        );
+        if (req.body.writers) {
+            const bookWriterValues = writers.flatMap(writer =>
+                [
+                    {
+                        book_id: book_id,
+                        writer_id: writer
+                    }
+                ]
+            );
+        }
 
         const genres = req.body.genres;
 
-        const bookGenreValues = genres.flatMap(genre => // flatMap нужен для преобразования массива students в набор объектов для добавления в таблицу attestation_book
-            [
-                {
-                    book_id: book_id,
-                    genre_id: genre
-                }
-            ]
-        );
+        if (req.body.genres) {
+            const bookGenreValues = genres.flatMap(genre =>
+                [
+                    {
+                        book_id: book_id,
+                        genre_id: genre
+                    }
+                ]
+            );
+        }
 
-        // bulkCreate - позволяет добавлять в таблицу сразу несколько записей
-        await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
+        if (req.body.writers) {
+            await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
+        }
 
-        // bulkCreate - позволяет добавлять в таблицу сразу несколько записей
-        await BookGenre.bulkCreate(bookGenreValues, { transaction: t });
+        if (req.body.genres) {
+            await BookGenre.bulkCreate(bookGenreValues, { transaction: t });
+        }
 
         await t.commit();
 

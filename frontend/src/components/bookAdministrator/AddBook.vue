@@ -6,7 +6,7 @@
                 <input class="form-control" type="text" name="name" id="name" placeholder="Название книги" required v-model="book.name">
             </div>
             <div>
-                <select class="form-select" multiple aria-label="multiple select example" required v-model="writers.id" style="@media (min-width: 768px) { height: calc(4 * 38px)}">
+                <select class="form-select" multiple aria-label="multiple select example" v-model="writers.id" style="@media (min-width: 768px) { height: calc(4 * 38px)}">
                     <option value="" disabled>Выберите писателей</option>
                     <option v-for="writer in writers" v-bind:key="writer.id" v-bind:value="writer.id">
                         {{writer.name}}
@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div>
-                <select class="form-select" multiple="multiple" aria-label="multiple select example" required v-model="genres.id" size="10">
+                <select class="form-select" multiple="multiple" aria-label="multiple select example" v-model="genres.id" size="10">
                     <option value="" disabled>Выберите жанры</option>
                     <option v-for="genre in genres" v-bind:key="genre.id" v-bind:value="genre.id">
                         {{genre.name}}
@@ -56,6 +56,7 @@
                     genres: this.genres.id
                 };
                 //console.log(data);
+                //console.log(data.genres);
                 http
                     .post("/addBook", data)
                     .then(() => {

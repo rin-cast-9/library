@@ -5,7 +5,7 @@
         <li class="col-4 list-group-item d-flex justify-content-between align-items-start">
           <div class="ms-2 me-auto">
             <div class="fw-bold"><router-link :to="{name: 'BookDetails', params: { id: book.id }}">{{book.name}}</router-link></div>
-            <div v-for="(writer, indexwriter) in book.book_writers" :key="indexwriter"> <router-link :to="{name: 'ListWriterBooks', params: { id: writer.writer.id }}">{{writer.writer.name}}</router-link> </div>
+            <div v-for="(writer, indexwriter) in book.book_writers" :key="indexwriter"> <router-link class="navbar-brand" :to="{name: 'ListWriterBooks', params: { id: writer.writer.id }}">{{writer.writer.name}}</router-link> </div>
           </div>
           <span v-if="book.cost===0" class="badge bg-primary rounded-pill">Бесплатно</span>
           <span v-else class="badge bg-primary rounded-pill">{{book.cost}} руб.</span>

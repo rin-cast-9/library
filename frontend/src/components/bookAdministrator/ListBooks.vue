@@ -8,7 +8,7 @@
             <div class="fw-bold"><router-link :to="{name: 'BookDetailsAdmin', params: { id: book.id }}">{{book.name}}</router-link></div>
             <div v-for="(writer, indexwriter) in book.book_writers" :key="indexwriter"> {{writer.writer.name}} </div>
           </div>
-          <span class="badge bg-primary rounded-pill">{{book.cost}}</span>
+          <span class="badge bg-primary rounded-pill">{{book.cost}} руб.</span>
         </li>
       </ul>
     </div>

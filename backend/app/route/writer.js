@@ -3,7 +3,7 @@ module.exports = (app) => {
     const writer = require('../controller/writer.js');
     
     //ПОЛУЧАЕМ все жанры
-    app.get('/api/writers', writer.findAll);
+    app.get('/api/listWriters', writer.findAll);
 
     //СОЗДАЁМ запись жанра
     app.post('/api/addWriter', writer.create);
