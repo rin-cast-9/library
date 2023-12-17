@@ -16,4 +16,10 @@ module.exports = (app) => {
 
     //НАХОДИМ жанр по названию (name)
     app.get('/api/genre/name/:name', genre.findByName);
+
+    //ПОЛУЧАЕМ книги одного автора по id
+    app.get('/api/listGenreBooks/:id', genre.findByGenre);
+
+    //ПОЛУЧАЕМ книги одного автора по id и по пользователю
+    app.get('/api/listGenreBooks/genreId=:genre_id/userId=:user_id/', genre.findByGenreByUser);
 };

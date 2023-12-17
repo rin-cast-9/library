@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid" v-if="this.book">
+    <div class="container" v-if="this.book">
         <h4>Информация о книге</h4>
         <form class="row g-3" @submit="updateName">
             <h4 class="col-auto">
@@ -61,6 +61,11 @@
                 book: null
             }
         },
+        computed: {
+            currentUser() {
+                return this.$store.state.auth.user;
+            }
+        },
         methods: {
             getBook() {
                 http
@@ -113,7 +118,12 @@
             }
         },
         mounted() {
-            this.getBook();
+            if (this.currentUser.role_id!=1) {
+                this.$router.push('/');
+            }
+            else {
+                this.getBook();
+            }
         }
     };
 </script>

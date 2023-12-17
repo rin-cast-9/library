@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid" v-if="this.genre">
+    <div class="container" v-if="this.genre">
         <form class="row g-3" @submit="updateName">
             <h4 class="col-auto">
                 Название:
@@ -24,13 +24,18 @@
                 genre: null
             }
         },
+        computed: {
+            currentUser() {
+                return this.$store.state.auth.user;
+            }
+        },
         methods: {
             getGenre() {
                 http
                     .get("/genre/"+this.id)
                     .then(response => {
                         this.genre = response.data;
-                        //console.log(this.writer);
+                        //console.log(this.genre);
                     })
                     .catch(err => {
                         console.log(err);
@@ -52,7 +57,12 @@
             }
         },
         mounted() {
-            this.getGenre();
+            if (this.currentUser.role_id!=1) {
+                this.$router.push('/');
+            }
+            else {
+                this.getGenre();
+            }
         }
     };
 </script>

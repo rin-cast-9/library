@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid" v-if="writers">
+    <div class="container" v-if="writers">
         <h4>Список писателей:</h4>
         <form class="row g-3" @submit="addWriter">
             <h4 class="col-auto">
@@ -23,7 +23,7 @@
   <script>
   import http from "../../http-common";
   export default {
-    name: "ListWriters",
+    name: "ListWritersaAdministrator",
     data() {
       return {
         writers: [],
@@ -31,6 +31,11 @@
             name: null
         }
       };
+    },
+    computed: {
+      currentUser() {
+        return this.$store.state.auth.user;
+      }
     },
     methods: {
       getWriters() {
@@ -59,7 +64,12 @@
       }
     },
     mounted() {
-      this.getWriters();
+      if (this.currentUser.role_id!=1) {
+        this.$router.push('/');
+      }
+      else {
+        this.getWriters();
+      }
     }
   }
   </script>

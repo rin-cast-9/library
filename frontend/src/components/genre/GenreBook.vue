@@ -1,8 +1,8 @@
 <template>
-    <div v-if="this.writerbooks" class="container-fluid">
-      <div v-for="(writer, indexwriter) in writerbooks" :key="indexwriter">
-        <h4>Витрина книг автора {{writer.name}}</h4>
-        <ul class="list-group list-group-horizontal" v-for="(book, indexbook) in writer.book_writers" :key="indexbook">
+    <div v-if="this.genrebooks" class="container-fluid">
+      <div v-for="(genre, indexgenre) in genrebooks" :key="indexgenre">
+        <h4>Витрина книг жанра: {{genre.name}}</h4>
+        <ul class="list-group list-group-horizontal" v-for="(book, indexbook) in genre.book_genres" :key="indexbook">
             <li class="col-4 list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
                 <div class="fw-bold"><router-link :to="{name: 'BookDetails', params: { id: book.book.id }}">{{book.book.name}}</router-link></div>
@@ -23,11 +23,11 @@
   <script>
   import http from "../../http-common";
   export default {
-    name: "ListWriterBooks",
+    name: "ListGenreBooks",
     props: ['id'],
     data() {
       return {
-        writerbooks: []
+        genrebooks: []
       };
     },
     computed: {
@@ -36,23 +36,22 @@
       }
     },
     methods: {
-      getWriterBooksWithoutUser() {
+      getGenreBooksWithoutUser() {
         http
-            .get("/listWriterBooks/"+this.id)
+            .get("/listGenreBooks/"+this.id)
             .then(response => {
-              this.writerbooks = response.data;
-              //console.log(this.writerbooks[0].book_writers);
+              this.genrebooks = response.data;
             })
             .catch(e => {
               console.log(e);
             });
       },
-      getWriterBooks() {
+      getGenreBooks(genre_id,user_id) {
         http
-            .get(`/listWriterBooks/${this.id}/user/${this.currentUser.id}`)
+            .get(`/listGenreBooks/genreId=${genre_id}/userId=${user_id}/`)
             .then(response => {
-              this.writerbooks = response.data;
-              //console.log(this.writerbooks[0].book_writers);
+                this.genrebooks = response.data;
+                console.log(this.genrebooks);
             })
             .catch(e => {
               console.log(e);
@@ -60,12 +59,12 @@
       }
     },
     mounted() {
-      if (this.currentUser) {
-        this.getWriterBooks();
-      }
-      else {
-        this.getWriterBooksWithoutUser();
-      }
+        if (this.currentUser) {
+            this.getGenreBooks(this.id,this.currentUser.id);
+        }
+        else {
+            this.getGenreBooksWithoutUser();
+        }
     }
   }
   </script>

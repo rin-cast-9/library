@@ -1,8 +1,9 @@
 <template>
-    <div class="container-fluid" v-if="this.wallet">
-        <h4>{{this.wallet.money}}</h4>
+    <div class="container" v-if="this.wallet">
+        <h4>Дорогой пользователь {{currentUser.username}}!</h4>
+        <h4>Баланс вашего кошелька составляет {{this.wallet.money}} руб.</h4>
+        <button class="btn btn-primary" v-on:click="plusThousand()">+1000 руб.</button>
     </div>
-    <button class="btn btn-primary" v-on:click="plusThousand()">+1000 руб.</button>
 </template>
   
 <script>

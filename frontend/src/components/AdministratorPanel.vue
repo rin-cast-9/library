@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
         <ul class="list-group">
             <li class="list-group-item"><router-link class="item navbar-brand" to="/listBooksAdministrator">Хранилище книг</router-link></li>
             <li class="list-group-item"><router-link class="item navbar-brand" to="/listWritersAdministrator">Писатели</router-link></li>
@@ -22,7 +22,7 @@
             }
         },
         mounted() {
-            if (!this.currentUser) {
+            if (this.currentUser.role_id!=1) {
                 this.$router.push('/');
             }
         }

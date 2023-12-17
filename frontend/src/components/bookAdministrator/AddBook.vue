@@ -1,12 +1,12 @@
 <template>
-    <div class="container-fluid" v-if="genres">
+    <div class="container" v-if="genres">
         <h4>Добавление книги</h4>
         <form @submit="addBook">
             <div>
                 <input class="form-control" type="text" name="name" id="name" placeholder="Название книги" v-model="book.name" required>
             </div>
             <div>
-                <select class="form-select" multiple="multiple" aria-label="multiple select example" v-model="writers.id" required>
+                <select class="form-select" multiple="multiple" aria-label="multiple select example" v-model="writers.id" size="10" required>
                     <option value="" disabled>Выберите писателей</option>
                     <option v-for="writer in writers" v-bind:key="writer.id" v-bind:value="writer.id">
                         {{writer.name}}
@@ -44,6 +44,11 @@
                 writers: [],
                 genres: []
             };
+        },
+        computed: {
+            currentUser() {
+                return this.$store.state.auth.user;
+            }
         },
         methods: {
             addBook(e) {
@@ -94,8 +99,13 @@
             }
         },
         mounted(){
-            this.getWriters();
-            this.getGenres();
+            if (this.currentUser.role_id!=1) {
+                this.$router.push('/');
+            }
+            else {
+                this.getWriters();
+                this.getGenres();
+            }
         }
     }
 </script>
