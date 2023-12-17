@@ -6,11 +6,6 @@
         </h3>
       </header>
       <p>
-        <strong>Токен JWT:</strong>
-        <!--вообще токен нельзя выводить на веб-странице, но для ознакомления он будет отображён на странице профиля пользователя-->
-        {{currentUser.accessToken}}
-      </p>
-      <p>
         <strong>Id:</strong>
         {{currentUser.id}}
       </p>

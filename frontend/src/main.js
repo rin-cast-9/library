@@ -7,4 +7,4 @@ import 'bootstrap/dist/css/bootstrap.css'
 const app = createApp(App); // Создание экземпляра приложения
 app.use(router); // Подключение маршрутизации
 app.use(store); 
-app.mount('#app'); // Привязка экземпляра приложения к странице HTML (находится в public)
+app.mount('#app'); // Привязка экземпляра приложения к странице HTML

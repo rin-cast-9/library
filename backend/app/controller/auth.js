@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 var Wallet = db.wallet;
 
-// регистрация пользователя
+//РЕГИСТРАЦИЯ пользователя
 exports.register = async (req, res) => {
     const t = await Wallet.sequelize.transaction();
     try {
@@ -24,7 +24,8 @@ exports.register = async (req, res) => {
         await t.commit();
 
         globalFunctions.sendResult(res, 'Пользователь добавлен');
-        /*User.create({
+        /*
+        User.create({
             username: req.body.username,
             password: bcrypt.hashSync(req.body.password, 10) // генерация хеша пароля
         })
@@ -36,14 +37,15 @@ exports.register = async (req, res) => {
             })
             .catch(err => {
                 globalFunctions.sendError(res, err);
-            });*/
+            });
+        */
     }
     catch(err) {
         globalFunctions.sendError(res, err);
     }
 };
 
-// проверка данных пользователя
+//проверка данных пользователя
 exports.login = (req, res) => {
     User.findOne({
         where: {

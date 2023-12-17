@@ -1,5 +1,9 @@
 var db = require('../config/db.config.js');
 var Genre = db.genre;
+var Book = db.book;
+var BookGenre = db.book_genre;
+var User = db.user;
+var UserBook = db.user_book;
 var globalFunctions = require('../config/global.functions.js');
 
 //ПОЛУЧАЕМ все жанры
@@ -67,4 +71,73 @@ exports.findByName = (req,res) => {
         .catch(err => {
             globalFunctions.sendError(res,err);
         })
+};
+
+//ПОЛУЧЕНИЕ книг одного жанра по id
+exports.findByGenre = (req,res) => {
+    Genre.findAll({
+        include: [
+            {
+                model: BookGenre,
+                requierd: true,
+                include: [
+                    {
+                        model: Book,
+                        required: true
+                    }
+                ] 
+            }
+        ],
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(objects => {
+        globalFunctions.sendResult(res,objects);
+    })
+    .catch(err => {
+        globalFunctions.sendError(res,err);
+    })
+};
+
+//ПОЛУЧЕНИЕ книг одного жанра по id и по пользователю
+exports.findByGenreByUser = (req,res) => {
+    Genre.findAll({
+        include: [
+            {
+                model: BookGenre,
+                requierd: true,
+                include: [
+                    {
+                        model: Book,
+                        required: true,
+                        include: [
+                            {
+                                model: UserBook,
+                                required: false,
+                                include: [
+                                    {
+                                        model: User,
+                                        required: true,
+                                        where: {
+                                            id: req.params.user_id
+                                        }
+                                    }
+                                ] 
+                            }
+                        ]
+                    }
+                ] 
+            }
+        ],
+        where: {
+            id: req.params.genre_id
+        }
+    })
+    .then(objects => {
+        globalFunctions.sendResult(res,objects);
+    })
+    .catch(err => {
+        globalFunctions.sendError(res,err);
+    })
 };
