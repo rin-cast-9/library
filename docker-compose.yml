@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   mysqldb:
-    image: mysql:8.0
+    image: mysql:5.7
+    platform: linux/x86_64
     restart: unless-stopped
     env_file: ./.env
     environment:
@@ -12,7 +13,7 @@ services:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
       - db:/var/lib/mysql
-      - ./backend/library.sql:/docker-entrypoint-initdb.d/dump.sql:ro
+#      - ./backend/library.sql:/docker-entrypoint-initdb.d/dump.sql:ro
   backend:
     depends_on:
       - mysqldb
@@ -26,7 +27,7 @@ services:
       - DB_USER=$MYSQLDB_USER
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
-      - DB_PORT=$MYSQLDB_DOCKER_PORT
+      - DB_PORT=$MYSQLDB_LOCAL_PORT
     stdin_open: true
     tty: true
   frontend:

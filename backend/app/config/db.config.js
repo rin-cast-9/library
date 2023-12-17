@@ -17,6 +17,7 @@ var sequelize = new Sequelize(
     dbProperties.database, dbProperties.username, dbProperties.password,
     {
         host: dbProperties.host,
+        port: dbProperties.port,
         dialect: dbProperties.dialect,
         operatorsAliases: false,
         pool: {
