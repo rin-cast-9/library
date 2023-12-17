@@ -25,4 +25,7 @@ module.exports = (app) => {
 
     //БИБЛИОТЕКА пользователя
     app.get('/api/library/:id', book.findByUser);
+
+    //ДОБАВЛЯЕМ книгу в библиотеку пользователя
+    app.post('/api/addBookToLibrary', book.addToLibrary);
 };

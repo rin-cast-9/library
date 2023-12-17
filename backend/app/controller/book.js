@@ -252,6 +252,26 @@ exports.findByUser = (req,res) => {
     })
 }
 
+exports.addToLibrary = async (req, res) => {
+    const { userId, bookId } = req.body;
+
+    const t = await UserBook.sequelize.transaction();
+
+    try {
+        await UserBook.create({
+            user_id: userId,
+            book_id: bookId
+        }, {transaction: t});
+
+        await t.commit();
+
+        globalFunctions.sendResult(res, "Книга успешно добавлена в библиотеку");
+    } catch (err) {
+        await t.rollback();
+        globalFunctions.sendError(res, err);
+    }
+}
+
 /*
 Book.findAll({
         include: [
