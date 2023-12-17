@@ -79,9 +79,9 @@
               //console.log(this.books[1].user_books[0].user_id);
 			})
 			.catch(e => {
-			  console.log(e);
-			});
-	  },
+              console.log(e);
+            });
+      },
       addToLibrary(book) {
         http
             .post("/addBookToLibrary", {
