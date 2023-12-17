@@ -29,7 +29,7 @@ function register(user) {
         username: user.username,
         password: user.password
     };
-    console.log(data)
+    //console.log(data)
     return http.post("/register", data);
 }
 

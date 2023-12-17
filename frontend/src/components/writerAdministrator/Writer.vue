@@ -24,6 +24,11 @@
                 writer: null
             }
         },
+        computed: {
+            currentUser() {
+                return this.$store.state.auth.user;
+            }
+        },
         methods: {
             getWriter() {
                 http

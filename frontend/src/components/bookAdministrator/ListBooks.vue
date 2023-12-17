@@ -26,7 +26,7 @@
     methods: {
       getBooks() {
         http
-            .get("/listBooks")
+            .get("/listBooks/"+this.$store.state.auth.user.id)
             .then(response => { 
               this.books = response.data;
             })
