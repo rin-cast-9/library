@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid" v-if="this.book">
-        <h1>{{book[0].name}}</h1>
+        <h1>{{book.name}}</h1>
     </div>
 </template>
 

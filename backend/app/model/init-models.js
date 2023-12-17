@@ -8,6 +8,7 @@ var _sales = require("./sales");
 var _subscription = require("./subscription");
 var _user = require("./user");
 var _user_book = require("./user_book");
+var _wallet = require("./wallet");
 var _writer = require("./writer");
 
 function initModels(sequelize) {
@@ -20,6 +21,7 @@ function initModels(sequelize) {
   var subscription = _subscription(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
   var user_book = _user_book(sequelize, DataTypes);
+  var wallet = _wallet(sequelize, DataTypes);
   var writer = _writer(sequelize, DataTypes);
 
   book.hasMany(book_genre, {foreignKey: "book_id", onDelete: "CASCADE"});
@@ -30,6 +32,7 @@ function initModels(sequelize) {
   subscription.hasMany(user, {foreignKey: "subscription_id", onDelete: "CASCADE"});
   user.hasMany(user_book, {foreignKey: "user_id", onDelete: "CASCADE"});
   writer.hasMany(book_writer, {foreignKey: "writer_id", onDelete: "CASCADE"});
+  wallet.hasMany(user, {foreignKey: "wallet_id", onDelete: "CASCADE"});
 
   book_genre.belongsTo(book, {foreignKey: "book_id"});
   book_writer.belongsTo(book, {foreignKey: "book_id"});
@@ -39,6 +42,7 @@ function initModels(sequelize) {
   user.belongsTo(subscription, {foreignKey: "subscription_id"});
   user_book.belongsTo(user, {foreignKey: "user_id"});
   book_writer.belongsTo(writer, {foreignKey: "writer_id"});
+  user.belongsTo(wallet, { as: "wallet", foreignKey: "wallet_id"});
 
   return {
     book,
@@ -50,6 +54,7 @@ function initModels(sequelize) {
     subscription,
     user,
     user_book,
+    wallet,
     writer,
   };
 }

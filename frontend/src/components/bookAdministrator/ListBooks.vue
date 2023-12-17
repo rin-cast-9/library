@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid" v-if="books">
-      <h4>Витрина книг</h4>
+      <h4>Хранилище книг</h4>
       <router-link class="item btn btn-primary" to="/addBook">Добавить книгу</router-link>
       <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-start" v-for="(book, index) in books" :key="index">

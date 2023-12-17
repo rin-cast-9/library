@@ -25,4 +25,10 @@ writer(app);
 var book = require('./app/route/book.js');
 book(app);
 
+var auth = require('./app/route/auth.js');
+auth(app);
+
+var wallet = require('./app/route/wallet.js');
+wallet(app);
+
 app.listen(3000);
