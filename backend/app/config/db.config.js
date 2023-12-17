@@ -42,4 +42,26 @@ var db = init_models.initModels(sequelize);
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.role.create({
+    id: 1,
+    name: "Администратор"
+})
+.then(newReport => {
+    console.log('Запись роли администратора создана');
+})
+.catch(error => {
+    console.error('Запись роли администратора существует');
+});
+
+db.role.create({
+    id: 2,
+    name: "Пользователь"
+})
+.then(newReport => {
+    console.log('Запись роли пользователя создана');
+})
+.catch(error => {
+    console.error('Запись роли пользователя существует');
+});
+
 module.exports = db;

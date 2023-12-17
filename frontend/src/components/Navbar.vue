@@ -38,7 +38,7 @@
       methods: {
           logOut() {
               this.$store.dispatch('auth/logout'); // обращаемся к методу logout, который определён в auth.service.js
-              window.location.href = '/login'; // // Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
+              window.location.href = '/login'; // Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
           }
       }
     };

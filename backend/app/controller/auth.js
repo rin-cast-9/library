@@ -4,22 +4,43 @@ var User = db.user;
 var globalFunctions = require('../config/global.functions.js');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+var Wallet = db.wallet;
 
 // регистрация пользователя
-exports.register = (req, res) => {
-    User.create({
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 10) // генерация хеша пароля
-    })
-        .then(() => {
-            var result = {
-                message: "Пользователь зарегистрирован"
-            };
-            globalFunctions.sendResult(res, result);
+exports.register = async (req, res) => {
+    const t = await Wallet.sequelize.transaction();
+    try {
+
+        const createdWallet = await Wallet.create({
+            money: 0,
+        }, { transaction: t });
+
+        const createdUser = await User.create({
+            username: req.body.username,
+            password: bcrypt.hashSync(req.body.password, 10),
+            wallet_id: createdWallet.id,
+        }, { transaction: t });
+
+        await t.commit();
+
+        globalFunctions.sendResult(res, 'Пользователь добавлен');
+        /*User.create({
+            username: req.body.username,
+            password: bcrypt.hashSync(req.body.password, 10) // генерация хеша пароля
         })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        });
+            .then(() => {
+                var result = {
+                    message: "Пользователь зарегистрирован"
+                };
+                globalFunctions.sendResult(res, result);
+            })
+            .catch(err => {
+                globalFunctions.sendError(res, err);
+            });*/
+    }
+    catch(err) {
+        globalFunctions.sendError(res, err);
+    }
 };
 
 // проверка данных пользователя

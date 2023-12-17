@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     role_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 2,
       references: {
         model: 'role',
@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     wallet_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'wallet',
         key: 'id'
