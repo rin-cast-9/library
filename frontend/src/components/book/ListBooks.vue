@@ -77,19 +77,18 @@
             .then(response => {
               this.books = response.data;
               //console.log(this.books[1].user_books[0].user_id);
-			})
-			.catch(e => {
-			  console.log(e);
-			});
-	  },
-      addToLibrary(book) {
+            }).catch(e => {
+              console.log(e);
+            });
+          },
+            addToLibrary(book) {
         http
             .post("/addBookToLibrary", {
               userId: this.currentUser.id,
               bookId: book.id
             })
             .then(() => {
-              this.getBooks();
+              this.$router.go(0);
             })
             .catch(e => {
               console.log(e);

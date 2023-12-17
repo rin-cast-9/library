@@ -11,9 +11,27 @@
             <span v-else class="badge bg-primary rounded-pill">{{book.book.cost}} руб.</span>
             </li>
             <li class="col-2 list-group-item d-flex justify-content-between align-items-start">
-            <input v-if="book.book.user_books && book.book.user_books.length!=0 && book.book.user_books[0].user_id===currentUser.id" type="submit" class="btn btn-secondary btn-lg" disabled value="Уже в библиотеке" style="width: 100%">
-            <input v-else-if="book.book.cost===0" class="btn btn-primary" type="submit" value="Добавить в библиотеку" style="width: 100%">
-            <input v-else class="btn btn-primary" type="submit" value="Купить книгу" style="width: 100%">
+              <button
+            v-if="book.book.user_books.length !== 0 && book.book.user_books[0].user_id === currentUser.id"
+            class="btn btn-secondary btn-lg"
+            disabled
+            style="width: 100%">
+            Уже в библиотеке
+          </button>
+          <button
+            v-else-if="book.book.cost === 0"
+            class="btn btn-primary"
+            @click="addToLibrary(book.book)"
+            style="width: 100%">
+            Добавить в библиотеку
+          </button>
+          <button
+            v-else
+            class="btn btn-primary"
+            @click="purchaseBook(book.book)"
+            style="width: 100%">
+            Купить книгу
+          </button>
             </li>
         </ul>
       </div>
@@ -52,6 +70,54 @@
             .then(response => {
                 this.genrebooks = response.data;
                 console.log(this.genrebooks);
+            })
+            .catch(e => {
+              console.log(e);
+            });
+      },
+      purchaseBook(book) {
+        http
+            .get(`/wallet/${this.currentUser.wallet_id}`)
+            .then(response => {
+              const userWallet = response.data;
+              const bookCost = book.cost;
+
+              if (userWallet.money >= bookCost) {
+                const isConfirmed = window.confirm(`Вы действительно хотите приобрести ${book.name} за ${book.cost} руб?`);
+
+                if (isConfirmed) {
+                  this.performPurchase(book, userWallet);
+                }
+              }
+              else {
+                alert("У вас недостаточно средств для совершения покупки.")
+              }
+            })
+            .catch(err => {
+              console.log("error fetching user's wallet: ", err);
+            })
+      },
+      performPurchase(book, userWallet) {
+        const balance = userWallet.money - book.cost;
+        http
+            .post(`/updateWallet/${userWallet.id}`, {
+              money: balance
+            })
+            .then(() => {
+              this.addToLibrary(book);
+            })
+            .catch(err => {
+              console.error("error updating wallet balance: ", err);
+            });
+      },
+            addToLibrary(book) {
+        http
+            .post("/addBookToLibrary", {
+              userId: this.currentUser.id,
+              bookId: book.id
+            })
+            .then(() => {
+              this.$router.go(0);
             })
             .catch(e => {
               console.log(e);
