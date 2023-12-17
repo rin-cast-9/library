@@ -38,7 +38,7 @@
             .get("/listGenres")
             .then(response => {
               this.genres = response.data;
-              //console.log(this.writers);
+              //console.log(this.genres);
             })
             .catch(e => {
               console.log(e);

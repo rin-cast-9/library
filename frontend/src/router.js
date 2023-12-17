@@ -12,6 +12,15 @@ import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
 import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
 import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
 
+import Login from "./components/authorization/Login";
+import Profile from "./components/authorization/Profile";
+import Register from "./components/authorization/Register";
+
+import store from "./store/index";
+
+import Library from "./components/library/Library.vue";
+
+import Wallet from "./components/wallet/Wallet.vue";
 
 const routes = [
     {
@@ -107,6 +116,50 @@ const routes = [
         meta: {
             title: "Жанр"
         }
+    },
+    {
+        path: "/login",
+        name: "login-user",
+        component: Login,
+        meta: {
+            title: "Вход в систему"
+        }
+    },
+    {
+        path: "/register",
+        name: "register-user",
+        component: Register,
+        meta: {
+            title: "Регистрация"
+        }
+    },
+    {
+        path: "/profile",
+        name: "profile-user",
+        component: Profile,
+        meta: {
+            title: "Профиль пользователя",
+            requiredAuth: true
+        }
+    },
+    {
+        path: "/library",
+        name: "UserLibrary",
+        component: Library,
+        meta: {
+            title: "Библиотека",
+            requiredAuth: true
+        }
+    },
+    {
+        path: "/wallet/:id",
+        name: "UserWallet",
+        props: true,
+        component: Wallet,
+        meta: {
+            title: "Кошелёк",
+            requiredAuth: true
+        }
     }
 ];
 
@@ -116,11 +169,30 @@ const router = createRouter({
 });
 
 // указание заголовка компонентам (тега title), заголовки определены в meta
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     // для тех маршрутов, для которых не определены компоненты, подключается только App.vue
     // поэтому устанавливаем заголовком по умолчанию название "Главная страница"
     document.title = to.meta.title || 'Главная страница';
-    next();
+
+    // проверяем наличие токена и срок его действия
+    const auth = await store.getters["auth/isTokenActive"];
+    if (auth) {
+        return next();
+    }
+    // если токена нет или его срок действия истёк, а страница доступна только авторизованному пользователю,
+    // то переходим на страницу входа в систему (ссылка на /login)
+    else if (!auth && to.meta.requiredAuth) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        await store.dispatch("auth/refreshToken", user)
+            .then(() => {
+                return next();
+            })
+            .catch(() => {
+                return next({path: "/login"});
+            });
+        return next({ path: "/login" });
+    }
+    return next();
 });
 
 export default router;

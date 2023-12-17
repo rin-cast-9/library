@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    login: {
+    username: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -30,8 +30,17 @@ module.exports = function(sequelize, DataTypes) {
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 2,
       references: {
         model: 'role',
+        key: 'id'
+      }
+    },
+    wallet_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'wallet',
         key: 'id'
       }
     }

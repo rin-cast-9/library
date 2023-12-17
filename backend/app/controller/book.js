@@ -4,6 +4,8 @@ var Genre = db.genre;
 var Writer = db.writer;
 var BookGenre = db.book_genre;
 var BookWriter = db.book_writer;
+var User = db.user;
+var UserBook = db.user_book;
 var globalFunctions = require('../config/global.functions.js');
 
 //ПОЛУЧЕНИЕ всех книг
@@ -29,6 +31,19 @@ exports.findAll = (req,res) => {
                         required: true
                     }
                 ] 
+            },
+            {
+                model: UserBook,
+                required: false,
+                include: [
+                    {
+                        model: User,
+                        required: true,
+                        where: {
+                            id: req.params.id
+                        }
+                    }
+                ]   
             }
         ]
     })
@@ -42,7 +57,7 @@ exports.findAll = (req,res) => {
 
 //ПОЛУЧАЕМ одну книгу по id с её жанрами и авторами
 exports.findById = (req,res) => {
-    Book.findAll({
+    Book.findOne({
         include: [
             {
                 model: BookGenre,
@@ -66,7 +81,7 @@ exports.findById = (req,res) => {
             }
         ],
         where: {
-            id: req.params.id
+            id: req.params.book_id
         } 
     })
     .then(objects => {
@@ -91,7 +106,7 @@ exports.addBook = async (req,res) => {
     
         const writers = req.body.writers;
 
-        if (req.body.writers) {
+        //if (req.body.writers!=undefined && req.body.writers.length!=0) {
             const bookWriterValues = writers.flatMap(writer =>
                 [
                     {
@@ -100,11 +115,11 @@ exports.addBook = async (req,res) => {
                     }
                 ]
             );
-        }
+        //}
 
         const genres = req.body.genres;
 
-        if (req.body.genres) {
+        //if (req.body.genres!=undefined && req.body.genres.length!=0) {
             const bookGenreValues = genres.flatMap(genre =>
                 [
                     {
@@ -113,15 +128,15 @@ exports.addBook = async (req,res) => {
                     }
                 ]
             );
-        }
+        //}
 
-        if (req.body.writers) {
+        //if (req.body.writers!=undefined && req.body.writers.length!=0) {
             await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
-        }
+        //}
 
-        if (req.body.genres) {
+        //if (req.body.genres!=undefined && req.body.genres.length!=0) {
             await BookGenre.bulkCreate(bookGenreValues, { transaction: t });
-        }
+        //}
 
         await t.commit();
 
@@ -209,6 +224,33 @@ exports.findByWriter = (req,res) => {
         globalFunctions.sendError(res,err);
     })
 };
+
+//БИБЛИОТЕКА пользователя
+exports.findByUser = (req,res) => {
+    User.findOne({
+        include: [
+            {
+                model: UserBook,
+                required: false,
+                include: [
+                    {
+                        model: Book,
+                        required: true,
+                    }
+                ]
+            }
+        ],
+        where: {
+            id: req.params.id
+        } 
+    })
+    .then(objects => {
+        globalFunctions.sendResult(res,objects);
+    })
+    .catch(err => {
+        globalFunctions.sendError(res,err);
+    })
+}
 
 /*
 Book.findAll({
