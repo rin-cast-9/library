@@ -137,10 +137,9 @@ exports.addBook = async (req,res) => {
         }, { transaction: t });
 
         const book_id = createdBook.id;
-    
-        const writers = req.body.writers;
-
-        //if (req.body.writers!=undefined && req.body.writers.length!=0) {
+        
+        if (req.body.writers) {
+            const writers = req.body.writers;
             const bookWriterValues = writers.flatMap(writer =>
                 [
                     {
@@ -149,11 +148,11 @@ exports.addBook = async (req,res) => {
                     }
                 ]
             );
-        //}
+            await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
+        }        
 
-        const genres = req.body.genres;
-
-        //if (req.body.genres!=undefined && req.body.genres.length!=0) {
+        if (req.body.genres) {
+            const genres = req.body.genres;
             const bookGenreValues = genres.flatMap(genre =>
                 [
                     {
@@ -162,15 +161,8 @@ exports.addBook = async (req,res) => {
                     }
                 ]
             );
-        //}
-
-        //if (req.body.writers!=undefined && req.body.writers.length!=0) {
-            await BookWriter.bulkCreate(bookWriterValues, { transaction: t });
-        //}
-
-        //if (req.body.genres!=undefined && req.body.genres.length!=0) {
             await BookGenre.bulkCreate(bookGenreValues, { transaction: t });
-        //}
+        }
 
         await t.commit();
 
