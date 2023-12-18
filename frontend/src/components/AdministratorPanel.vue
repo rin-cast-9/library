@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <ul class="list-group">
             <li class="list-group-item"><router-link class="item navbar-brand" to="/listBooksAdministrator">Хранилище книг</router-link></li>
             <li class="list-group-item"><router-link class="item navbar-brand" to="/listWritersAdministrator">Писатели</router-link></li>
@@ -10,22 +10,12 @@
   
   <script>
       export default {
-        name: "AdministratorPanel",
-        data() {
-            return {
-
-            };
-        },
-        computed: {
-            currentUser() {
-                return this.$store.state.auth.user;
-            }
-        },
-        mounted() {
-            if (this.currentUser.role_id!=1) {
-                this.$router.push('/');
-            }
-        }
+          name: "AdministratorPanel",
+          data() {
+              return {
+  
+              };
+          }
       };
   </script>
   

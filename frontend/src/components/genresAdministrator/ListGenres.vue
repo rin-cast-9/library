@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="genres">
+    <div class="container-fluid" v-if="genres">
         <h4>Список жанров:</h4>
         <form class="row g-3" @submit="addGenre">
             <h4 class="col-auto">
@@ -23,7 +23,7 @@
   <script>
   import http from "../../http-common";
   export default {
-    name: "ListGenresAdministrator",
+    name: "ListGenres",
     data() {
       return {
         genres: [],
@@ -31,11 +31,6 @@
             name: null
         }
       };
-    },
-    computed: {
-      currentUser() {
-          return this.$store.state.auth.user;
-      }
     },
     methods: {
       getGenres() {
@@ -64,12 +59,7 @@
       }
     },
     mounted() {
-      if (this.currentUser.role_id!=1) {
-        this.$router.push('/');
-      }
-      else {
-        this.getGenres();
-      }
+      this.getGenres();
     }
   }
   </script>

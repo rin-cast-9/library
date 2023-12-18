@@ -1,6 +1,6 @@
 <template>
-    <div class="col-md-3 mx-auto" style="text-align:center">
-      <h4>Регистрация пользователя</h4>
+    <div class="col-md-5">
+      <h4 class="mx-auto mt-4">Регистрация пользователя</h4>
       <form name="form" @submit="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
@@ -10,7 +10,7 @@
             <input type="password" class="form-control" name="password" placeholder="Пароль" v-model="user.password" required/>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary" style="width: 100%">Зарегистрировать</button>
+            <button class="btn btn-primary">Зарегистрировать</button>
           </div>
         </div>
         <div class="form-group">
@@ -44,6 +44,7 @@
     mounted() {
       if (this.loggedIn) {
         // Авторизация прошла успешно, переходим к главной странице.
+        // Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
         window.location.href = '/';
       }
     },

@@ -6,15 +6,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var cors = require('cors');
 var corsOptions = {
-    origin: 'http://localhost:4200',
-    credentials: true,
-    optionSuccessStatus: 200
+    origin: 'http://localhost:4200', // указываем, откуда будут приходить запросы
+    credentials: true, // разрешаем обрабатывать запросы
+    optionSuccessStatus: 200 // при успешной обработке запроса будет возвращён статус 200
 };
 app.use(cors(corsOptions));
 
-var db = require('./app/config/db.config.js');
+var db = require('./app/config/db.config.js'); // подключение настроек базы данных
 
-db.sequelize.sync({force: false});
+db.sequelize.sync({force: false}); // force обозначает автоматическое создание таблиц в базе данных при запуске проекта
 
 var genre = require('./app/route/genre.js');
 genre(app);
@@ -30,5 +30,11 @@ auth(app);
 
 var wallet = require('./app/route/wallet.js');
 wallet(app);
+
+var subscription = require('./app/route/subscription.js');
+subscription(app);
+
+var user = require('./app/route/user.js');
+user(app);
 
 app.listen(3000);

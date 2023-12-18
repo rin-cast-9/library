@@ -2,30 +2,29 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import ListBooks from "./components/book/ListBooks.vue";
 import Book from "./components/book/Book.vue"
-
+import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
+import BookAdministrator from "./components/bookAdministrator/Book.vue";
+import AddBook from "./components/bookAdministrator/AddBook.vue";
+import ListWriterBooks from "./components/book/WriterBook.vue";
 import AdministratorPanel from "./components/AdministratorPanel.vue";
-    import ListWritersAdministrator from "./components/writerAdministrator/ListWriters.vue";
-    import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
-    import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
-    import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
-    import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
-    import BookAdministrator from "./components/bookAdministrator/Book.vue";
-    import AddBook from "./components/bookAdministrator/AddBook.vue";
+import ListWritersAdministrator from "./components/writerAdministrator/ListWriters.vue";
+import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
+import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
+import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
 
 import Login from "./components/authorization/Login";
 import Profile from "./components/authorization/Profile";
 import Register from "./components/authorization/Register";
+
 import store from "./store/index";
 
 import Library from "./components/library/Library.vue";
 
 import Wallet from "./components/wallet/Wallet.vue";
 
-import SearchPanel from "./components/Search.vue"
-    import ListWriters from "./components/writer/ListWriters.vue";
-    import ListWriterBooks from "./components/book/WriterBook.vue";
-    import ListGenres from "./components/genre/ListGenres.vue";
-    import ListGenreBooks from "./components/genre/GenreBook.vue";
+import ListSubscriptions from "./components/subscription/ListSubscriptions.vue";
+import Subscription from "./components/subscription/Subscription.vue";
+
 
 const routes = [
     {
@@ -90,7 +89,7 @@ const routes = [
     },
     {
         path: "/listWritersAdministrator",
-        name: "ListWritersAdministrator",
+        name: "ListWriters",
         component: ListWritersAdministrator,
         meta: {
             title: "Список писателей"
@@ -107,7 +106,7 @@ const routes = [
     },
     {
         path: "/listGenresAdministrator",
-        name: "ListGenresAdministrator",
+        name: "ListGenres",
         component: ListGenresAdministrator,
         meta: {
             title: "Список жанров"
@@ -167,43 +166,27 @@ const routes = [
         }
     },
     {
-        path: "/listWriters",
-        name: "ListWriters",
-        component: ListWriters,
+        path: "/listSubscriptions",
+        name: "ListSubscriptions",
+        component: ListSubscriptions,
         meta: {
-            title: "Список писателей"
+            title: "Виды подписок"
         }
     },
     {
-        path: "/search",
-        name: "SearchPanel",
-        component: SearchPanel,
-        meta: {
-            title: "Поиск"
-        }
-    },
-    {
-        path: "/listGenreBooks/:id",
-        name: "ListGenreBooks",
+        path: "/subscription/:id",
+        name: "SubscriptionDetails",
         props: true,
-        component: ListGenreBooks,
+        component: Subscription,
         meta: {
-            title: "Витрина книг жанра"
-        }
-    },
-    {
-        path: "/listGenres",
-        name: "ListGenres",
-        component: ListGenres,
-        meta: {
-            title: "Список жанров"
+            title: "Подписка"
         }
     }
 ];
 
 const router = createRouter({
-    history: createWebHistory(), //будет создаваться история посещений веб-страниц
-    routes, //маршрутизация
+    history: createWebHistory(), // указываем, что будет создаваться история посещений веб-страниц
+    routes, // подключаем маршрутизацию
 });
 
 // указание заголовка компонентам (тега title), заголовки определены в meta

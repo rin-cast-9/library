@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     role_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       defaultValue: 2,
       references: {
         model: 'role',
@@ -38,11 +38,46 @@ module.exports = function(sequelize, DataTypes) {
     },
     wallet_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'wallet',
         key: 'id'
       }
     }
+  }, {
+    sequelize,
+    tableName: 'user',
+    timestamps: false,
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "subscription_id",
+        using: "BTREE",
+        fields: [
+          { name: "subscription_id" },
+        ]
+      },
+      {
+        name: "role_id",
+        using: "BTREE",
+        fields: [
+          { name: "role_id" },
+        ]
+      },
+      {
+        name: "wallet_id",
+        using: "BTREE",
+        fields: [
+          { name: "wallet_id" },
+        ]
+      },
+    ]
   });
 };

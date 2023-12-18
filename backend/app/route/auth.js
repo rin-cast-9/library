@@ -3,6 +3,7 @@ module.exports = (app) => {
     var auth = require("../controller/auth");
 
     app.use((req, res, next) => {
+        // подключаем заголовки для авторизации
         res.header(
             "Access-Control-Allow-Headers",
             "x-access-token, Origin, Content-Type, Accept"

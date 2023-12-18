@@ -23,5 +23,33 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     }
+  }, {
+    sequelize,
+    tableName: 'book_writer',
+    timestamps: false,
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "book_id",
+        using: "BTREE",
+        fields: [
+          { name: "book_id" },
+        ]
+      },
+      {
+        name: "writer_id",
+        using: "BTREE",
+        fields: [
+          { name: "writer_id" },
+        ]
+      },
+    ]
   });
 };

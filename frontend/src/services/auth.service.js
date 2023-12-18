@@ -29,11 +29,13 @@ function register(user) {
         username: user.username,
         password: user.password
     };
-    //console.log(data)
+    console.log(data)
     return http.post("/register", data);
 }
 
 // обработка обновления токена
+// на стороне сервера установили время действия токена, если после указанного времени пользователь всё ещё работает в системе,
+// то нужно сгенерировать другой токен
 function refreshToken(user) {
     var data = {
         username: user.username
@@ -48,7 +50,7 @@ function refreshToken(user) {
         });
 }
 
-// декодируем токен jwt, чтобы в вызывающем методе использовать время
+// декодируем токен jwt, чтобы в вызывающем методе использовать время (понадобится для проверки срока действия токена)
 function jwtDecrypt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

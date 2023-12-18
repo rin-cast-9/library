@@ -8,55 +8,8 @@ var User = db.user;
 var UserBook = db.user_book;
 var globalFunctions = require('../config/global.functions.js');
 
-//ПОЛУЧЕНИЕ всех книг по пользователю
-exports.findAll = (req,res) => {
-    Book.findAll({
-        include: [
-            {
-                model: BookGenre,
-                required: false,
-                include: [
-                    {
-                        model: Genre,
-                        required: true
-                    }
-                ]
-            },
-            {
-                model: BookWriter,
-                requierd: false,
-                include: [
-                    {
-                        model: Writer,
-                        required: true
-                    }
-                ] 
-            },
-            {
-                model: UserBook,
-                required: false,
-                include: [
-                    {
-                        model: User,
-                        required: true,
-                        where: {
-                            id: req.params.id
-                        }
-                    }
-                ]   
-            }
-        ]
-    })
-    .then(objects => {
-        globalFunctions.sendResult(res,objects);
-    })
-    .catch(err => {
-        globalFunctions.sendError(res,err);
-    })
-};
-
 //ПОЛУЧЕНИЕ всех книг
-exports.findAllWithoutUser = (req,res) => {
+exports.findAll = (req,res) => {
     Book.findAll({
         include: [
             {
@@ -115,7 +68,7 @@ exports.findById = (req,res) => {
             }
         ],
         where: {
-            id: req.params.book_id
+            id: req.params.id
         } 
     })
     .then(objects => {
@@ -127,7 +80,7 @@ exports.findById = (req,res) => {
 };
 
 exports.addBook = async (req,res) => {
-
+    // все данные добавляем в транзакции
     const t = await Book.sequelize.transaction();
 
     try {
@@ -259,97 +212,9 @@ exports.findByWriter = (req,res) => {
     })
 };
 
-//ПОЛУЧЕНИЕ книг одного писателя по id и по пользователю
-exports.findByWriterByUser = (req,res) => {
-    Writer.findAll({
-        include: [
-            {
-                model: BookWriter,
-                requierd: true,
-                include: [
-                    {
-                        model: Book,
-                        required: true,
-                        include: [
-                            {
-                                model: UserBook,
-                                required: false,
-                                include: [
-                                    {
-                                        model: User,
-                                        required: true,
-                                        where: {
-                                            id: req.params.user_id
-                                        }
-                                    }
-                                ] 
-                            }
-                        ]
-                    }
-                ] 
-            }
-        ],
-        where: {
-            id: req.params.writer_id
-        }
-    })
-    .then(objects => {
-        globalFunctions.sendResult(res,objects);
-    })
-    .catch(err => {
-        globalFunctions.sendError(res,err);
-    })
-};
-
 //БИБЛИОТЕКА пользователя
 exports.findByUser = (req,res) => {
     User.findOne({
-		include: [
-			{
-				model: UserBook,
-				required: false,
-				include: [
-					{
-						model: Book,
-						required: true,
-					}
-				]
-			}
-		],
-		where: {
-			id: req.params.id
-		}
-	})
-	.then(objects => {
-		globalFunctions.sendResult(res,objects);
-	})
-	.catch(err => {
-		globalFunctions.sendError(res, err);
-	})
-}
-          
-exports.addToLibrary = async (req, res) => {
-    const { userId, bookId } = req.body;
-
-    const t = await UserBook.sequelize.transaction();
-
-    try {
-        await UserBook.create({
-            user_id: userId,
-            book_id: bookId
-        }, {transaction: t});
-
-        await t.commit();
-
-        globalFunctions.sendResult(res, "Книга успешно добавлена в библиотеку");
-    } catch (err) {
-        await t.rollback();
-        globalFunctions.sendError(res, err);
-    }
-}
-
-/*
-Book.findAll({
         include: [
             {
                 model: UserBook,
@@ -373,4 +238,43 @@ Book.findAll({
         globalFunctions.sendError(res,err);
     })
 }
+
+/*
+Book.findAll({
+        include: [
+            {
+                model: BookGenre,
+                required: true,
+                include: [
+                    {
+                        model: Genre,
+                        required: true
+                    }
+                ]
+            },
+            {
+                model: BookWriter,
+                requierd: true,
+                include: [
+                    {
+                        model: Writer,
+                        required: true
+                    }
+                ] 
+            }
+        ]
+    })
+*/
+
+/*
+db.sequelize.query(
+        `SELECT book.*, writer.name AS writer_name, genre.name AS genre_name 
+        FROM book
+        INNER JOIN book_genre ON book.id = book_genre.book_id
+        INNER JOIN book_writer ON book.id = book_writer.book_id
+        INNER JOIN writer ON writer.id = book_writer.writer_id
+        INNER JOIN genre ON genre.id = book_genre.genre_id`,
+        {
+            type: db.sequelize.QueryTypes.SELECT
+        })
 */

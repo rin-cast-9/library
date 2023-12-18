@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="books">
+    <div class="container-fluid" v-if="books">
       <h4>Библиотека пользователя {{this.$store.state.auth.user.username}}</h4>
       <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-start" v-for="(book, index) in books.user_books" :key="index">

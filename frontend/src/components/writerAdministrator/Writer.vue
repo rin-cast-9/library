@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="this.writer">
+    <div class="container-fluid" v-if="this.writer">
         <form class="row g-3" @submit="updateName">
             <h4 class="col-auto">
                 ФИО:
@@ -22,11 +22,6 @@
         data() {
             return {
                 writer: null
-            }
-        },
-        computed: {
-            currentUser() {
-                return this.$store.state.auth.user;
             }
         },
         methods: {
@@ -57,12 +52,7 @@
             }
         },
         mounted() {
-            if (this.currentUser.role_id!=1) {
-                this.$router.push('/');
-            }
-            else {
-                this.getWriter();
-            }
+            this.getWriter();
         }
     };
 </script>

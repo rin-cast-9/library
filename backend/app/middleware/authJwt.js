@@ -2,6 +2,7 @@ var jwt = require("jsonwebtoken");
 var config = require("../config/auth.config.js");
 
 exports.verifyToken = (req, res, next) => {
+    // считываем токен из переданных заголовков со стороны клиентского приложения
     let token = req.headers["x-access-token"];
     if (!token) {
         res.status(403).send({

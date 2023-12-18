@@ -16,5 +16,19 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 0
     }
+  }, {
+    sequelize,
+    tableName: 'book',
+    timestamps: false,
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
+      },
+    ]
   });
 };

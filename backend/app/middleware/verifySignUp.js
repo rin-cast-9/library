@@ -1,5 +1,6 @@
 var db = require('../config/db.config.js');
 var User = db.user;
+// регистрация пользователя с предварительной проверкой существования логина
 exports.checkDuplicateUsername = (req, res, next) => {
     User.findOne({
         where: {
@@ -12,6 +13,7 @@ exports.checkDuplicateUsername = (req, res, next) => {
             });
             return;
         }
+        // если пользователя с переданным логином не существует, то переходим к следующему этапу регистрации
         next();
     });
 };

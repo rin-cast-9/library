@@ -11,8 +11,7 @@
             <span v-else class="badge bg-primary rounded-pill">{{book.book.cost}} руб.</span>
             </li>
             <li class="col-2 list-group-item d-flex justify-content-between align-items-start">
-            <input v-if="book.book.user_books && book.book.user_books.length!=0 && book.book.user_books[0].user_id===currentUser.id" type="submit" class="btn btn-secondary btn-lg" disabled value="Уже в библиотеке" style="width: 100%">
-            <input v-else-if="book.book.cost===0" class="btn btn-primary" type="submit" value="Добавить в библиотеку" style="width: 100%">
+            <input v-if="book.book.cost===0" class="btn btn-primary" type="submit" value="Добавить в библиотеку" style="width: 100%">
             <input v-else class="btn btn-primary" type="submit" value="Купить книгу" style="width: 100%">
             </li>
         </ul>
@@ -30,29 +29,13 @@
         writerbooks: []
       };
     },
-    computed: {
-      currentUser() {
-          return this.$store.state.auth.user;
-      }
-    },
     methods: {
-      getWriterBooksWithoutUser() {
+      getWriterBooks() {
         http
             .get("/listWriterBooks/"+this.id)
             .then(response => {
               this.writerbooks = response.data;
-              //console.log(this.writerbooks[0].book_writers);
-            })
-            .catch(e => {
-              console.log(e);
-            });
-      },
-      getWriterBooks() {
-        http
-            .get(`/listWriterBooks/${this.id}/user/${this.currentUser.id}`)
-            .then(response => {
-              this.writerbooks = response.data;
-              //console.log(this.writerbooks[0].book_writers);
+              console.log(this.writerbooks[0].book_writers);
             })
             .catch(e => {
               console.log(e);
@@ -60,12 +43,7 @@
       }
     },
     mounted() {
-      if (this.currentUser) {
         this.getWriterBooks();
-      }
-      else {
-        this.getWriterBooksWithoutUser();
-      }
     }
   }
   </script>
