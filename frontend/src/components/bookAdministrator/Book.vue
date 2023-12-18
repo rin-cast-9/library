@@ -23,6 +23,19 @@
                 <input class="btn btn-primary" type="submit" value="Обновить цену">
             </div>
         </form>
+        <form class="row g-3" @submit="updateDescription">
+            <h4 class="col-auto">
+                Описание:
+            </h4>
+            <div>
+                <textarea class="form-control" type="text" name="description" id="description" placeholder="Описание" v-model="book.description">
+
+                </textarea>
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" value="Обновить описание">
+            </div>
+        </form>
         <h5>Авторы:</h5>
         <div v-if="book.book_writers.length!=0">
             <ul class="list-group">
@@ -99,6 +112,20 @@
                 };
                 http
                     .post("/updateBookName/" + this.id, data)
+                    .then(() => { 
+                        this.$router.push('/listBooksAdministrator'); 
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            updateDescription(e) {
+                e.preventDefault();
+                var data = {
+                    description: this.book.description
+                };
+                http
+                    .post("/updateBookDescription/" + this.id, data)
                     .then(() => { 
                         this.$router.push('/listBooksAdministrator'); 
                     })

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 16 2023 г., 16:20
+-- Время создания: Дек 18 2023 г., 12:16
 -- Версия сервера: 10.4.28-MariaDB
 -- Версия PHP: 8.2.4
 
@@ -30,18 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `book` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `cost` int(11) NOT NULL DEFAULT 0
+  `cost` int(11) NOT NULL DEFAULT 0,
+  `description` text DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Дамп данных таблицы `book`
 --
 
-INSERT INTO `book` (`id`, `name`, `cost`) VALUES
-(1, 'Гарри Поттер и Философский камень', 500),
-(2, 'Капитанская дочка', 250),
-(5, 'Сборник стихотворений Пушкина', 0),
-(83, 'Гарри Поттер и Орден феникса', 775);
+INSERT INTO `book` (`id`, `name`, `cost`, `description`) VALUES
+(1, 'Гарри Поттер и Философский камень', 750, ' '),
+(2, 'Капитанская дочка', 500, ' '),
+(7, 'Сборник стихотворений', 0, ' '),
+(15, 'Сборник народных сказок', 250, 'Сборник');
 
 -- --------------------------------------------------------
 
@@ -62,13 +63,11 @@ CREATE TABLE `book_genre` (
 INSERT INTO `book_genre` (`id`, `book_id`, `genre_id`) VALUES
 (1, 1, 1),
 (2, 1, 3),
-(3, 2, 4),
+(3, 1, 4),
 (4, 2, 1),
-(9, 5, 1),
-(10, 5, 3),
-(34, 83, 1),
-(35, 83, 2),
-(36, 83, 3);
+(5, 2, 3),
+(14, 7, 1),
+(15, 7, 3);
 
 -- --------------------------------------------------------
 
@@ -87,10 +86,10 @@ CREATE TABLE `book_writer` (
 --
 
 INSERT INTO `book_writer` (`id`, `book_id`, `writer_id`) VALUES
-(1, 2, 1),
-(2, 1, 2),
-(5, 5, 1),
-(13, 83, 2);
+(1, 1, 1),
+(2, 2, 3),
+(13, 7, 2),
+(14, 7, 3);
 
 -- --------------------------------------------------------
 
@@ -109,12 +108,11 @@ CREATE TABLE `genre` (
 
 INSERT INTO `genre` (`id`, `name`) VALUES
 (1, 'Романтика'),
-(2, 'Фантастика'),
+(2, 'Комедия'),
 (3, 'Драма'),
-(4, 'Исторический роман'),
-(5, 'Научная фантастика'),
-(7, 'Комедия'),
-(8, 'Сёдзе-манга');
+(4, 'Фантастика'),
+(5, 'Сёдзе-манга'),
+(6, 'Научная фантастика');
 
 -- --------------------------------------------------------
 
@@ -159,6 +157,15 @@ CREATE TABLE `subscription` (
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Дамп данных таблицы `subscription`
+--
+
+INSERT INTO `subscription` (`id`, `name`) VALUES
+(1, 'Стандартная'),
+(2, 'Студенческая'),
+(3, 'Премиум');
+
 -- --------------------------------------------------------
 
 --
@@ -171,8 +178,8 @@ CREATE TABLE `user` (
   `password` text NOT NULL,
   `subscription_id` int(11) DEFAULT NULL,
   `subscription_date` date DEFAULT NULL,
-  `role_id` int(11) NOT NULL DEFAULT 2,
-  `wallet_id` int(11) NOT NULL
+  `role_id` int(11) DEFAULT 2,
+  `wallet_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -180,8 +187,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `subscription_id`, `subscription_date`, `role_id`, `wallet_id`) VALUES
-(3, 'qwe', '$2a$10$aAv4t3bjnAo1.H/9epCLouRjXpqLgF.BG4DSkBZqQjhfqvXsUtt2S', NULL, NULL, 1, 1),
-(4, 'asd', '$2a$10$GCpZ3eoHqg5vYAY4gwPReu6hJOxVg5gfVCKNDB/v8giWQmZbk10am', NULL, NULL, 2, 2);
+(2, 'qwe', '$2a$10$fEtHq7EE1BdoYJU7zgUuduTj9GCb3OAk90SDNpqvQqSrMQC1jDDZi', 1, '2023-12-18', 1, 7),
+(3, 'asd', '$2a$10$FcdM.oj.YDdeaqJl/P0Vm.DHQPGrKe7tekJsmIZulEbry8gFPdcdi', NULL, NULL, 2, 8),
+(4, 'zxc', '$2a$10$W9U7p9LnWksmjb.wJegO5e4d8X5xsXlL0jFH11hkQ/OBLdpGWF19q', NULL, NULL, 2, 9),
+(9, 'asdasd', '$2a$10$s1PX3elZODFfNeE4Njw76O1OqOGu6VK7Gs1wlxWziajvMKAirNPO.', NULL, NULL, 2, 14),
+(10, 'asdasdasd', '$2a$10$rfQHnYAOqwrB1IS69Xid4e7liz0f1qvjSuapA288NM3t3atI0tLT2', NULL, NULL, 2, 15);
 
 -- --------------------------------------------------------
 
@@ -200,8 +210,10 @@ CREATE TABLE `user_book` (
 --
 
 INSERT INTO `user_book` (`id`, `book_id`, `user_id`) VALUES
-(1, 2, 4),
-(2, 5, 4);
+(1, 2, 2),
+(2, 1, 2),
+(3, 7, 2),
+(8, 15, 2);
 
 -- --------------------------------------------------------
 
@@ -219,8 +231,12 @@ CREATE TABLE `wallet` (
 --
 
 INSERT INTO `wallet` (`id`, `money`) VALUES
-(1, 1000),
-(2, 12000);
+(7, 2154),
+(8, 1000),
+(9, 0),
+(13, 0),
+(14, 1000),
+(15, 0);
 
 -- --------------------------------------------------------
 
@@ -238,10 +254,12 @@ CREATE TABLE `writer` (
 --
 
 INSERT INTO `writer` (`id`, `name`) VALUES
-(1, 'Пушкин'),
-(2, 'Роулинг'),
-(12, 'Лермонтов'),
-(13, 'Толстой');
+(1, 'Роулинг'),
+(2, 'Лермонтов'),
+(3, 'Пушкин'),
+(4, 'Толстой'),
+(5, 'Ахматова'),
+(6, 'Ахматов');
 
 --
 -- Индексы сохранённых таблиц
@@ -330,25 +348,25 @@ ALTER TABLE `writer`
 -- AUTO_INCREMENT для таблицы `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `book_genre`
 --
 ALTER TABLE `book_genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT для таблицы `book_writer`
 --
 ALTER TABLE `book_writer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT для таблицы `genre`
 --
 ALTER TABLE `genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `role`
@@ -366,31 +384,31 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT для таблицы `subscription`
 --
 ALTER TABLE `subscription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `user_book`
 --
 ALTER TABLE `user_book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `wallet`
 --
 ALTER TABLE `wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `writer`
 --
 ALTER TABLE `writer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

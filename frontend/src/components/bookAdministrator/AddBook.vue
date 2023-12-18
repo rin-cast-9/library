@@ -25,6 +25,11 @@
                 <input class="form-control" type="number" name="cost" id="cost" placeholder="Цена" v-model="book.cost">
             </div>
             <div>
+                <textarea class="form-control" type="text" name="description" id="description" placeholder="Описание" v-model="book.description">
+
+                </textarea>
+            </div>
+            <div>
                 <input class="btn btn-primary" type="submit" value="Добавить книгу">
             </div>
         </form>
@@ -40,6 +45,7 @@
                 book: {
                     name: "",
                     cost: 0,
+                    description: ""
                 },
                 writers: [],
                 genres: []
@@ -58,7 +64,8 @@
                     name: this.book.name,
                     cost: this.book.cost,
                     writers: this.writers.id,
-                    genres: this.genres.id
+                    genres: this.genres.id,
+                    description: this.book.description
                 };
                 //console.log(data);
                 if (data.genres==undefined || data.genres.length ==0) {

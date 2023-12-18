@@ -1,6 +1,7 @@
 <template>
     <div class="container" v-if="this.book">
         <h1>{{book.name}}</h1>
+        <h5>{{book.description}}</h5>
     </div>
 </template>
 
