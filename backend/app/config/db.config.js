@@ -28,16 +28,12 @@ var sequelize = new Sequelize(
             idle: dbProperties.pool.idle
         },
         define: {
-            // имена таблиц не будут создаваться автоматически во множественном числе
             freezeTableName: true,
-
-            // запрет на автоматическое создание полей createdAt и updatedAt (эти поля по умолчанию создаются ORM Sequalize во всех таблицах, при желании можете включить эту настройку)
             timestamps: false
         }
     }
 );
 
-// Подключение моделей
 var init_models = require('../model/init-models');
 var db = init_models.initModels(sequelize);
 

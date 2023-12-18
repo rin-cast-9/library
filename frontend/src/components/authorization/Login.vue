@@ -1,6 +1,6 @@
 <template>
-    <div class="col-md-5">
-        <h4 class="mx-auto mt-4">Вход в систему</h4>
+    <div class="col-md-3 mx-auto" style="text-align:center">
+        <h4>Вход в систему</h4>
         <form name="form" @submit="handleLogin">
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="Логин" v-model="user.username" required/>
@@ -9,11 +9,12 @@
                 <input type="password" class="form-control" name="password" placeholder="Пароль" v-model="user.password" required/>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" :disabled="loading">
+                <button class="btn btn-primary" :disabled="loading" style="width: 100%">
                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                     <span>Войти</span>
                 </button>
             </div>
+            <div>Не зарегистрированы?</div>
             <router-link to="/register">
                 Зарегистрироваться
             </router-link>
@@ -36,15 +37,13 @@
                 message: ''
             };
         },
-        computed: { // вычисляемые свойства
+        computed: {
             loggedIn() {
-                return this.$store.state.auth.status.loggedIn; // $store - локальное хранилище
+                return this.$store.state.auth.status.loggedIn;
             }
         },
         created() {
             if (this.loggedIn) {
-                // Авторизация прошла успешно, переходим к главной странице.
-                // Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
                 window.location.href = '/';
             }
         },
@@ -54,7 +53,7 @@
                 this.loading = true;
                 this.$store.dispatch("auth/login", this.user) // обращаемся к методу login, который определён в auth.service.js
                     .then(() => {
-                        window.location.href = '/'; // авторизация прошла успешно, переходим к главной странице. Используем такую конструкцию, а не this.$router.push, так как требуется перезагрузить страницу для обновления локального хранилища
+                        window.location.href = '/'; // авторизация прошла успешно, переходим к главной странице
                     })
                     .catch(e => {
                             this.loading = false;
@@ -65,3 +64,7 @@
         }
     };
 </script>
+
+<style>
+
+</style>
