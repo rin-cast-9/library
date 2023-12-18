@@ -134,6 +134,7 @@ exports.addBook = async (req,res) => {
         const createdBook = await Book.create({
             name: req.body.name,
             cost: req.body.cost,
+            description: req.body.description
         }, { transaction: t });
 
         const book_id = createdBook.id;
@@ -210,6 +211,24 @@ exports.updateCost = (req, res) => {
 exports.updateName = (req, res) => {
     Book.update({
         name: req.body.name
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(object => {
+            globalFunctions.sendResult(res, object)
+        })
+        .catch(err => {
+            globalFunctions.sendError(res,err);
+        })
+};
+
+//ОБНОВЛЯЕМ описание книги
+exports.updateDescription = (req, res) => {
+    Book.update({
+        description: req.body.description
     },
     {
         where: {

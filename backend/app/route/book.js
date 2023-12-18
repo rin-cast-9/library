@@ -23,6 +23,9 @@ module.exports = (app) => {
     //ОБНОВЛЯЕМ название книги по id
     app.post('/api/updateBookName/:id', book.updateName);
 
+    //ОБНОВЛЯЕМ описание книги по id
+    app.post('/api/updateBookDescription/:id', book.updateDescription);
+
     //ПОЛУЧАЕМ книги одного автора по id
     app.get('/api/listWriterBooks/:id', book.findByWriter);
 

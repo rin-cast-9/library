@@ -61,4 +61,34 @@ db.role.create({
     console.error('Запись роли пользователя существует');
 });
 
+db.subscription.create({
+    id:1,
+    name: "Стандартная"
+}).then(newReport => {
+    console.log('Запись роли подписки создана');
+})
+.catch(error => {
+    console.error('Запись роли подписки существует');
+});
+
+db.subscription.create({
+    id:2,
+    name: "Студенческая"
+}).then(newReport => {
+    console.log('Запись роли подписки создана');
+})
+.catch(error => {
+    console.error('Запись роли подписки существует');
+});
+
+db.subscription.create({
+    id:3,
+    name: "Премиум"
+}).then(newReport => {
+    console.log('Запись роли подписки создана');
+})
+.catch(error => {
+    console.error('Запись роли подписки существует');
+});
+
 module.exports = db;
