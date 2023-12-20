@@ -20,7 +20,14 @@
 <!--          <input v-else-if="book.cost===0" class="btn btn-primary" type="submit" value="Добавить в библиотеку" style="width: 100%">-->
 <!--          <input v-else class="btn btn-primary" type="submit" value="Купить книгу" style="width: 100%">-->
           <button
-            v-if="book.user_books.length !== 0 && book.user_books[0].user_id === currentUser.id"
+            v-if="!currentUser"
+            class="btn btn-secondary btn-lg"
+            disabled
+            style="width: 100%">
+            Войдите, чтобы купить
+          </button>
+          <button
+            v-else-if="book.user_books.length !== 0 && book.user_books[0].user_id === currentUser.id"
             class="btn btn-secondary btn-lg"
             disabled
             style="width: 100%">
