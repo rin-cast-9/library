@@ -4,13 +4,13 @@ import ListBooks from "./components/book/ListBooks.vue";
 import Book from "./components/book/Book.vue"
 
 import AdministratorPanel from "./components/AdministratorPanel.vue";
-    import ListWritersAdministrator from "./components/writerAdministrator/ListWriters.vue";
-    import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
-    import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
-    import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
-    import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
-    import BookAdministrator from "./components/bookAdministrator/Book.vue";
-    import AddBook from "./components/bookAdministrator/AddBook.vue";
+import ListWritersAdministrator from "./components/writerAdministrator/ListWriters.vue";
+import WriterAdministrator from "./components/writerAdministrator/Writer.vue";
+import ListGenresAdministrator from "./components/genresAdministrator/ListGenres.vue";
+import GenreAdministrator from "./components/genresAdministrator/Genre.vue";
+import ListBooksAdministrator from "./components/bookAdministrator/ListBooks.vue";
+import BookAdministrator from "./components/bookAdministrator/Book.vue";
+import AddBook from "./components/bookAdministrator/AddBook.vue";
 
 import Login from "./components/authorization/Login";
 import Profile from "./components/authorization/Profile";
@@ -22,15 +22,17 @@ import Library from "./components/library/Library.vue";
 import Wallet from "./components/wallet/Wallet.vue";
 
 import SearchPanel from "./components/Search.vue"
-    import ListWriters from "./components/writer/ListWriters.vue";
-    import ListWriterBooks from "./components/book/WriterBook.vue";
-    import ListGenres from "./components/genre/ListGenres.vue";
-    import ListGenreBooks from "./components/genre/GenreBook.vue";
+import ListWriters from "./components/writer/ListWriters.vue";
+import ListWriterBooks from "./components/book/WriterBook.vue";
+import ListGenres from "./components/genre/ListGenres.vue";
+import ListGenreBooks from "./components/genre/GenreBook.vue";
+
+import Subscriptions from './components/ListSubscriptions.vue';
 
 const routes = [
     {
-        path: "/listBooks", 
-        name: "ListBooks", 
+        path: "/listBooks",
+        name: "ListBooks",
         alias: "/books",
         component: ListBooks,
         meta: {
@@ -198,6 +200,14 @@ const routes = [
         meta: {
             title: "Список жанров"
         }
+    },
+    {
+        path: "/listSubscriptions",
+        name: "ListSubscriptions",
+        component: Subscriptions,
+        meta: {
+            title: "Подписки"
+        }
     }
 ];
 
@@ -226,7 +236,7 @@ router.beforeEach(async (to, from, next) => {
                 return next();
             })
             .catch(() => {
-                return next({path: "/login"});
+                return next({ path: "/login" });
             });
         return next({ path: "/login" });
     }

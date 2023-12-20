@@ -31,4 +31,10 @@ auth(app);
 var wallet = require('./app/route/wallet.js');
 wallet(app);
 
+var user = require("./app/route/user.js")
+user(app)
+
+var subscription = require("./app/route/subscription.js")
+subscription(app)
+
 app.listen(3000);
