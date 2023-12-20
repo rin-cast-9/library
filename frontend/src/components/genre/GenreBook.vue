@@ -11,8 +11,15 @@
             <span v-else class="badge bg-primary rounded-pill">{{book.book.cost}} руб.</span>
             </li>
             <li class="col-2 list-group-item d-flex justify-content-between align-items-start">
-              <button
-            v-if="book.book.user_books.length !== 0 && book.book.user_books[0].user_id === currentUser.id"
+          <button
+            v-if="!currentUser"
+            class="btn btn-secondary btn-lg"
+            disabled
+            style="width: 100%">
+            Войдите, чтобы купить
+          </button>
+          <button
+            v-else-if="book.book.user_books.length !== 0 && book.book.user_books[0].user_id === currentUser.id"
             class="btn btn-secondary btn-lg"
             disabled
             style="width: 100%">
