@@ -27,7 +27,7 @@ import ListWriterBooks from "./components/book/WriterBook.vue";
 import ListGenres from "./components/genre/ListGenres.vue";
 import ListGenreBooks from "./components/genre/GenreBook.vue";
 
-import Subscriptions from './components/ListSubscriptions.vue';
+import Subscriptions from './components/subscription/ListSubscriptions.vue';
 
 const routes = [
     {
